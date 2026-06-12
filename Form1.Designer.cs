@@ -34,6 +34,8 @@
             panelLaboratorio = new Panel();
             picComputadora = new PictureBox();
             panelHistoria = new Panel();
+            btnRespuesta = new Button();
+            txtRespuesta = new TextBox();
             labelContexto = new Label();
             btnEntendido = new Button();
             labelHistoria = new Label();
@@ -100,12 +102,33 @@
             // panelHistoria
             // 
             panelHistoria.BackColor = SystemColors.ActiveCaptionText;
+            panelHistoria.Controls.Add(btnRespuesta);
+            panelHistoria.Controls.Add(txtRespuesta);
             panelHistoria.Controls.Add(labelContexto);
             panelHistoria.Controls.Add(btnEntendido);
             panelHistoria.Location = new Point(481, 138);
             panelHistoria.Name = "panelHistoria";
             panelHistoria.Size = new Size(903, 513);
             panelHistoria.TabIndex = 0;
+            // 
+            // btnRespuesta
+            // 
+            btnRespuesta.Location = new Point(246, 406);
+            btnRespuesta.Name = "btnRespuesta";
+            btnRespuesta.Size = new Size(288, 34);
+            btnRespuesta.TabIndex = 3;
+            btnRespuesta.Text = "Desbloquear sistema ";
+            btnRespuesta.UseVisualStyleBackColor = true;
+            btnRespuesta.Visible = false;
+            btnRespuesta.Click += btnRespuesta_Click;
+            // 
+            // txtRespuesta
+            // 
+            txtRespuesta.Location = new Point(263, 330);
+            txtRespuesta.Name = "txtRespuesta";
+            txtRespuesta.Size = new Size(241, 31);
+            txtRespuesta.TabIndex = 2;
+            txtRespuesta.Visible = false;
             // 
             // labelContexto
             // 
@@ -176,5 +199,7 @@
         private Button btnEntendido;
         private Label labelContexto;
         private PictureBox picComputadora;
+        private TextBox txtRespuesta;
+        private Button btnRespuesta;
     }
 }

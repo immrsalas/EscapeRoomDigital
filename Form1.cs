@@ -6,7 +6,9 @@ namespace EscapeRoomDigital
     {
 
         private SoundPlayer reproductorMusic;
-
+        private AcertijoComputadora acertijoActual;
+        private bool computadoraDesbloqueada = false;
+        private bool tieneLlave = false;
 
         public Form1()
         {
@@ -74,15 +76,90 @@ namespace EscapeRoomDigital
 
         private void btnEntendido_Click(object sender, EventArgs e)
         {
+
             panelHistoria.Visible = false;
             labelContexto.Visible = false;
+
+            txtRespuesta.Visible = false;
+            btnRespuesta.Visible = false;
 
             picComputadora.Visible = true;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            panelHistoria.Visible = true;
+            labelContexto.Visible = true;
 
+            if (computadoraDesbloqueada)
+            {
+                labelContexto.Text =
+                    "[ARCHIVOS DESCLASIFICADOS]\n\n" +
+                    "Acceso autorizado al sistema central del Área 51.\n\n" +
+                    "Registro recuperado:\n" +
+                    "La llave de emergencia está oculta cerca del tanque biológico.\n\n" +
+                    "Busca el objeto brillante y úsalo para abrir la salida.";
+
+                txtRespuesta.Visible = false;
+                btnRespuesta.Visible = false;
+                btnEntendido.Visible = true;
+                return;
+            }
+
+            acertijoActual = new AcertijoComputadora();
+
+            labelContexto.Text = acertijoActual.Pregunta;
+
+            txtRespuesta.Clear();
+
+            btnEntendido.Visible = false;
+            txtRespuesta.Visible = true;
+            btnRespuesta.Visible = true;
+            txtRespuesta.Focus();
         }
+
+        private void btnRespuesta_Click(object sender, EventArgs e)
+        {
+            string respuesta = txtRespuesta.Text.Trim();
+
+            if (acertijoActual.Resolver(respuesta))
+            {
+                computadoraDesbloqueada = true;
+                
+
+                MessageBox.Show(
+                    "Acceso concedido.\n\nHas desbloqueado la computadora del Área 51.",
+                    "Sistema",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                panelHistoria.Visible = false;
+                txtRespuesta.Visible = false;
+                btnRespuesta.Visible = false;
+
+            }
+
+            else
+            {
+                MessageBox.Show(
+                    $"Código incorrecto.\nIntentos restantes: {acertijoActual.Intentos}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                if (acertijoActual.Intentos <= 0)
+                {
+                    MessageBox.Show(
+                        "Has agotado todos los intentos.\nLos agentes alienígenas te han capturado.",
+                        "GAME OVER",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    Application.Exit();
+                }
+            }
+        }
+
+       
     }
 }
